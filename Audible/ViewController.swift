@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
+    //MARK:- Properties
+    
     let cellId = "cellId"
     
     lazy var collectionView: UICollectionView = {
@@ -24,6 +26,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return cv
     }()
 
+    let pages: [Page] = {
+       
+        let firstPage = Page(title: "Share a great listen", message: "it's time to send your books to the people in your life, Every receipents first book is on", imageName: "page1")
+        
+        let secondPage = Page(title: "Share a great listen", message: "it's time to send your books to the people in your life, Every receipents first book is on", imageName: "page2")
+        
+        let thirdPage = Page(title: "Share a great listen", message: "it's time to send your books to the people in your life, Every receipents first book is on", imageName: "page3")
+        
+
+        return [firstPage, secondPage, thirdPage]
+    }()
     
     //MARK:- ViewDidLoad
     override func viewDidLoad() {
@@ -38,12 +51,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //MARK:- delegate and datasource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return pages.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PageCell
+        
+        let page = pages[indexPath.row]
+        cell.page = page
         return cell
     }
     
