@@ -9,11 +9,11 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-
+    
     //MARK:- Properties
     
     let cellId = "cellId"
-    let newCellId = "newCellId"
+    let LoginCellId = "LoginCellId"
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -38,6 +38,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
         return [firstPage, secondPage, thirdPage]
     }()
+    
     
     lazy var pageControl: UIPageControl = {
        
@@ -70,6 +71,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //MARK:- ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
         view.addSubview(collectionView)
         view.addSubview(pageControl)
         view.addSubview(skipButton)
@@ -87,7 +91,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     fileprivate func registerCells() {
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: newCellId)
+        collectionView.register(LoginCell.self, forCellWithReuseIdentifier: LoginCellId)
         collectionView.register(PageCell.self, forCellWithReuseIdentifier: cellId)
     }
     
@@ -101,7 +105,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.item == pages.count {
-            let loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: newCellId, for: indexPath)
+            let loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: LoginCellId, for: indexPath) as! LoginCell
             return loginCell
         }
         
@@ -109,6 +113,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let page = pages[indexPath.row]
         cell.page = page
         return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
     
     //MARK:- pagecontrol dots
