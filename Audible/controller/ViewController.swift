@@ -49,19 +49,46 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return pc
     }()
     
-    let skipButton: UIButton = {
+    lazy var skipButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Skip", for: .normal)
         button.setTitleColor(.orange, for: .normal)
+        button.addTarget(self, action: #selector(skipPage), for: .touchUpInside)
         return button
     }()
     
-    let nextButton: UIButton = {
+    lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Next", for: .normal)
         button.setTitleColor(.orange, for: .normal)
+        button.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
         return button
     }()
+    
+    @objc func skipPage() {
+        // skiping page
+        pageControl.currentPage = pages.count - 1
+        nextPage()
+    }
+    
+    @objc func nextPage() {
+        // we are on the last page
+        if pageControl.currentPage == pages.count {
+            return
+        }
+        
+        if pageControl.currentPage == pages.count - 1 {
+            moveControlConstraintOffScreen()
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+        
+        let indexpath = IndexPath(item: pageControl.currentPage + 1, section: 0)
+        collectionView.scrollToItem(at: indexpath, at: .centeredHorizontally, animated: true)
+        pageControl.currentPage += 1
+    }
     
     var pageControlBottomAnchor: NSLayoutConstraint?
     var skipButtonTopAnchor: NSLayoutConstraint?
@@ -71,8 +98,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //MARK:- ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        observeKeyboardNotifications()
         
         view.addSubview(collectionView)
         view.addSubview(pageControl)
@@ -88,6 +114,30 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.anchorToTop(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
         
         registerCells()
+    }
+    
+    fileprivate func observeKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+
+    }
+    
+    @objc func keyboardShow() {
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
+            self.view.frame = CGRect(x: 0, y: -50, width: self.view.frame.width, height: self.view.frame.height)
+            
+        }, completion: nil)
+    }
+    
+    @objc func keyboardHide() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
+            self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+            
+        }, completion: nil)
     }
     
     fileprivate func registerCells() {
@@ -129,12 +179,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //MARK:- Animate here
 
         if pageNumber == pages.count {
-            pageControlBottomAnchor?.constant = 80
-            skipButtonTopAnchor?.constant = -80
-            nextButtonTopAnchor?.constant = -80
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                self.view.layoutIfNeeded()
-            }, completion: nil)
+           moveControlConstraintOffScreen()
         } else {
             pageControlBottomAnchor?.constant = 0
             skipButtonTopAnchor?.constant = 0
@@ -145,6 +190,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.view.layoutIfNeeded()
         }, completion: nil)
         
+    }
+    
+    fileprivate func moveControlConstraintOffScreen() {
+        pageControlBottomAnchor?.constant = 80
+        skipButtonTopAnchor?.constant = -80
+        nextButtonTopAnchor?.constant = -80
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
