@@ -25,7 +25,7 @@ class NavigationController: UINavigationController {
     }
     
     fileprivate func isLoggedIn() -> Bool {
-        return false
+        return true
     }
     
     @objc func showLogInController() {
@@ -41,7 +41,11 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("pratik")
-        
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "home"))
+        view.addSubview(imageView) 
+        navigationItem.title = "We're Logged in"
+        let statusHeight = UIApplication.shared.statusBarFrame.height
+        let navBarHeight = navigationController?.navigationBar.frame.size.height
+        _ = imageView.anchor(view.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: statusHeight + navBarHeight!, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
     }
 }

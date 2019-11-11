@@ -25,9 +25,21 @@
                                     <constraint firstAttribute="height" constant="200" id="xtI-Pz-l5R"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AUDIBLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iOk-rM-9EB">
+                                <rect key="frame" x="82" y="79" width="250" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="rkd-mB-30j"/>
+                                    <constraint firstAttribute="height" constant="120" id="wUy-SC-7GP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                <color key="textColor" red="0.94818788766860962" green="0.61089396476745605" blue="0.20019969344139099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="iOk-rM-9EB" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="M2K-mi-oID"/>
+                            <constraint firstItem="iOk-rM-9EB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="35" id="euA-tv-7q0"/>
                             <constraint firstItem="StQ-Tn-1XF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="f4n-25-OC5"/>
                             <constraint firstItem="StQ-Tn-1XF" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="ht9-yf-rJZ"/>
                         </constraints>
@@ -36,7 +48,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
     <resources>
