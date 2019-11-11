@@ -25,7 +25,7 @@ class NavigationController: UINavigationController {
     }
     
     fileprivate func isLoggedIn() -> Bool {
-        return true
+        return false
     }
     
     @objc func showLogInController() {
